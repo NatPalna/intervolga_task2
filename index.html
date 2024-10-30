@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/normalize.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>INTERVOLGA | TASK 2</title>
+    <script src="https://unpkg.com/imask"></script>
+  </head>
+  <body>
+    <div class="container">
+      <form class="form">
+        <button type="button" class="close">
+          <img src="./img/close.svg" alt="Закрыть" width="10" />
+        </button>
+        <h1>Транспортные средства и водители</h1>
+        <label class="label"
+          >Гос. номер
+          <input
+            type="text"
+            class="input"
+            placeholder="Укажите гос. номер"
+            name="number"
+            maxlength="6"
+            id="gosNumber"
+            required
+          />
+        </label>
+        <label class="label">
+          Транспортное средство
+          <input
+            type="text"
+            class="input"
+            placeholder="Транспортное средство"
+            name="transport"
+            required
+          />
+        </label>
+        <label class="label date-label">
+          Ориентировочная дата прибытия к покупателю
+          <input
+            type="text"
+            class="input date-input"
+            placeholder="Дата*"
+            name="date"
+            required
+          />
+        </label>
+        <fieldset class="fieldset">
+          <legend>Данные о водителе</legend>
+          <label class="label">
+            ФИО водителя
+            <input
+              type="text"
+              class="input"
+              placeholder="Укажите ФИО водителя"
+              name="driver-name"
+              required
+            />
+          </label>
+          <label class="label passport">
+            <span>Паспортные данные</span>
+            <input
+              type="text"
+              name="passport-series"
+              placeholder="Серия"
+              id="passport-series"
+              class="input"
+              maxlength="4"
+              required />
+            <input
+              type="text"
+              name="passport-number"
+              placeholder="Номер"
+              id="passport-number"
+              class="input"
+              maxlength="6"
+              required
+          /></label>
+          <label class="label">
+            Кем выдан
+            <input
+              type="text"
+              class="input"
+              placeholder="Кем выдан"
+              name="issued"
+              required
+            />
+          </label>
+          <label class="label">
+            Когда выдан
+            <input
+              type="date"
+              class="input date"
+              placeholder="Когда выдан"
+              name="date-of-issue"
+              required
+            />
+          </label>
+        </fieldset>
+        <fieldset class="fieldset">
+          <button type="submit" class="btn submit">Отправить</button>
+          <button type="reset" class="btn reset">Очистить</button>
+        </fieldset>
+      </form>
+    </div>
+
+    <script>
+      // плейсхолдер для даты
+      const input = document.querySelector(".date-input");
+
+      input.addEventListener("focus", function () {
+        this.type = "date";
+      });
+      input.addEventListener("blur", function () {
+        if (this.value === "") {
+          this.type = "text";
+        }
+      });
+
+      // сохраняем введенные данные
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("input").forEach(function (e) {
+          if (e.value === "")
+            e.value = window.sessionStorage.getItem(e.name, e.value);
+
+          e.addEventListener("input", function () {
+            window.sessionStorage.setItem(e.name, e.value);
+          });
+        });
+      });
+
+      // маски ввода
+      const numberInput = document.getElementById("gosNumber");
+      const numberMaskOptions = IMask(numberInput, {
+        mask: "a000aa",
+      });
+      const numberMask = IMask(numberInput, numberMaskOptions);
+
+      const seriesInput = document.getElementById("passport-series");
+      const seriesMaskOptions = IMask(seriesInput, {
+        mask: "0000",
+      });
+      const seriesMask = IMask(seriesInput, seriesMaskOptions);
+
+      const passportNumberInput = document.getElementById("passport-number");
+      const passportNumberMaskOptions = IMask(passportNumberInput, {
+        mask: "000000",
+      });
+      const passportNumberMask = IMask(
+        passportNumberInput,
+        passportNumberMaskOptions
+      );
+    </script>
+  </body>
+</html>
